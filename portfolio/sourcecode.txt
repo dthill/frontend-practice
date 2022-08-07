@@ -1,0 +1,471 @@
+<app-main-layout>
+    <router-outlet></router-outlet>
+</app-main-layout>
+<div class="card m-auto mt-4 p-4">
+    <h1 class="text-center">Login</h1>
+    <form [formGroup]="loginForm" class="form-group" (submit)="submit($event)">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" id="email" required formControlName="email" class="form-control">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" id="password" required formControlName="password" class="form-control">
+        <button class="btn btn-primary mt-4" [disabled]="email?.invalid || password?.invalid">Login</button>
+    </form>
+</div><nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarToggler">
+        <span class="navbar-brand">myPortfolio</span>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="[routeConstants.portfolio]">Portfolio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="[routeConstants.login]">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="[routeConstants.register]">Register</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<main class="container-fluid main">
+    <ng-content></ng-content>
+</main>
+<footer class="container-fluid text-center">
+    © 2022
+</footer><div class="text-center">
+    <h1 >
+        My Amazing Porfolio
+    </h1>
+    <img src="assets/images/portfolio.avif" alt="portfolio image">
+    <p>
+        Lorem Ipsum Lorizzle uhuh ... yih! dolizzle sit amet, shizzlin dizzle adipiscing elit. 
+    </p>
+</div>
+<div class="card m-auto mt-4 p-4">
+    <h1 class="text-center">Register</h1>
+    <form [formGroup]="registerForm" class="form-group" (submit)="submit($event)">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" name="name" id="name" required formControlName="name" class="form-control">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" id="email" required formControlName="email" class="form-control">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" id="password" required formControlName="password" class="form-control">
+        <button class="btn btn-primary mt-4" [disabled]="name?.invalid || email?.invalid || password?.invalid">Register</button>
+    </form>
+</div><!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Portfolio</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { routeConstants } from './constants/route-constants';
+import { LoginComponent } from './login/login.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
+import { RegisterComponent } from './register/register.component';
+
+const routes: Routes = [
+  { path: routeConstants.login, component: LoginComponent }, 
+  { path: routeConstants.register, component: RegisterComponent },
+  { path: routeConstants.portfolio, component: PortfolioComponent }, 
+  { path: '**', component: PortfolioComponent }, 
+
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppComponent } from './app.component';
+
+describe('AppComponent', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
+      declarations: [
+        AppComponent
+      ],
+    }).compileComponents();
+  });
+
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it(`should have as title 'portfolio'`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('portfolio');
+  });
+
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.content span')?.textContent).toContain('portfolio app is running!');
+  });
+});
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  title = 'portfolio';
+}
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { MainLayoutComponent } from './main-layout/main-layout.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    MainLayoutComponent,
+    LoginComponent,
+    RegisterComponent,
+    PortfolioComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule, 
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+export const routeConstants = {
+    login: 'login',
+    register: 'register',
+    portfolio: ''
+}import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { LoginComponent } from './login.component';
+
+describe('LoginComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ LoginComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+import { Component, KeyValueDiffers, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
+})
+export class LoginComponent implements OnInit {
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [Validators.required])
+  })
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+  get email(){
+    return this.loginForm.get('email');
+  }
+
+  get password(){
+    return this.loginForm.get('password');
+  }
+
+  submit(event: SubmitEvent){
+    event.preventDefault();
+    alert("Login comming soon...")
+  }
+}
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { MainLayoutComponent } from './main-layout.component';
+
+describe('MainLayoutComponent', () => {
+  let component: MainLayoutComponent;
+  let fixture: ComponentFixture<MainLayoutComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ MainLayoutComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(MainLayoutComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+import { Component, OnInit } from '@angular/core';
+import { routeConstants } from '../constants/route-constants';
+
+@Component({
+  selector: 'app-main-layout',
+  templateUrl: './main-layout.component.html',
+  styleUrls: ['./main-layout.component.scss']
+})
+export class MainLayoutComponent implements OnInit {
+  readonly routeConstants = routeConstants;
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { PortfolioComponent } from './portfolio.component';
+
+describe('PortfolioComponent', () => {
+  let component: PortfolioComponent;
+  let fixture: ComponentFixture<PortfolioComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ PortfolioComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(PortfolioComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-portfolio',
+  templateUrl: './portfolio.component.html',
+  styleUrls: ['./portfolio.component.scss']
+})
+export class PortfolioComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { RegisterComponent } from './register.component';
+
+describe('RegisterComponent', () => {
+  let component: RegisterComponent;
+  let fixture: ComponentFixture<RegisterComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ RegisterComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(RegisterComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
+})
+export class RegisterComponent implements OnInit {
+  registerForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [Validators.required])
+  })
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+  get name(){
+    return this.registerForm.get('name');
+  }
+
+  get email(){
+    return this.registerForm.get('email');
+  }
+
+  get password(){
+    return this.registerForm.get('password');
+  }
+
+  submit(event: SubmitEvent){
+    event.preventDefault();
+    alert("Registration comming soon...")
+  }
+}
+export const environment = {
+  production: true
+};
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+
+export const environment = {
+  production: false
+};
+
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
+
+if (environment.production) {
+  enableProdMode();
+}
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.error(err));
+/**
+ * This file includes polyfills needed by Angular and is loaded before the app.
+ * You can add your own extra polyfills to this file.
+ *
+ * This file is divided into 2 sections:
+ *   1. Browser polyfills. These are applied before loading ZoneJS and are sorted by browsers.
+ *   2. Application imports. Files imported after ZoneJS that should be loaded before your main
+ *      file.
+ *
+ * The current setup is for so-called "evergreen" browsers; the last versions of browsers that
+ * automatically update themselves. This includes recent versions of Safari, Chrome (including
+ * Opera), Edge on the desktop, and iOS and Chrome on mobile.
+ *
+ * Learn more in https://angular.io/guide/browser-support
+ */
+
+/***************************************************************************************************
+ * BROWSER POLYFILLS
+ */
+
+/**
+ * By default, zone.js will patch all possible macroTask and DomEvents
+ * user can disable parts of macroTask/DomEvents patch by setting following flags
+ * because those flags need to be set before `zone.js` being loaded, and webpack
+ * will put import in the top of bundle, so user need to create a separate file
+ * in this directory (for example: zone-flags.ts), and put the following flags
+ * into that file, and then add the following code before importing zone.js.
+ * import './zone-flags';
+ *
+ * The flags allowed in zone-flags.ts are listed here.
+ *
+ * The following flags will work for all browsers.
+ *
+ * (window as any).__Zone_disable_requestAnimationFrame = true; // disable patch requestAnimationFrame
+ * (window as any).__Zone_disable_on_property = true; // disable patch onProperty such as onclick
+ * (window as any).__zone_symbol__UNPATCHED_EVENTS = ['scroll', 'mousemove']; // disable patch specified eventNames
+ *
+ *  in IE/Edge developer tools, the addEventListener will also be wrapped by zone.js
+ *  with the following flag, it will bypass `zone.js` patch for IE/Edge
+ *
+ *  (window as any).__Zone_enable_cross_context_check = true;
+ *
+ */
+
+/***************************************************************************************************
+ * Zone JS is required by default for Angular itself.
+ */
+import 'zone.js';  // Included with Angular CLI.
+
+
+/***************************************************************************************************
+ * APPLICATION IMPORTS
+ */
+// This file is required by karma.conf.js and loads recursively all the .spec and framework files
+
+import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting
+} from '@angular/platform-browser-dynamic/testing';
+
+declare const require: {
+  context(path: string, deep?: boolean, filter?: RegExp): {
+    <T>(id: string): T;
+    keys(): string[];
+  };
+};
+
+// First, initialize the Angular testing environment.
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting(),
+);
+
+// Then we find all the tests.
+const context = require.context('./', true, /\.spec\.ts$/);
+// And load the modules.
+context.keys().forEach(context);

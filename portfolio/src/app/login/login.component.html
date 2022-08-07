@@ -1,0 +1,11 @@
+
+<div class="card m-auto mt-4 p-4">
+    <h1 class="text-center">Login</h1>
+    <form [formGroup]="loginForm" class="form-group" (submit)="submit($event)">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" id="email" required formControlName="email" class="form-control">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" id="password" required formControlName="password" class="form-control">
+        <button class="btn btn-primary mt-4" [disabled]="email?.invalid || password?.invalid">Login</button>
+    </form>
+</div>
